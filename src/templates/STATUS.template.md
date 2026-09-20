@@ -1,5 +1,5 @@
 status: not_started
-task: —
-branch: —
-current_action: —
-updated: —
+task: "—"
+branch: "—"
+current_action: "—"
+updated: "—"
