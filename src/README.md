@@ -44,7 +44,6 @@ aiac/
     │                             проекта, не в корне (названо не `TASK.template.md`, чтобы историческая
     │                             причина из `aiac/LESSONS_LEARNED.md`, пункт 10, не повторилась)
     ├── STATUS.template.md
-    ├── LOG.template.md
     ├── REPORT.template.md
     └── ADR.template.md      — шаблон Architecture Decision Record, копируется в docs/adr/NNNN-*.md
                                 проекта для нетривиальных технических решений (см. PLAN.template.md)
