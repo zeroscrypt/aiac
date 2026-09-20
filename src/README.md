@@ -42,7 +42,9 @@ aiac/
     │                             `aiac/LESSONS_LEARNED.md`, пункт 10)
     ├── STATUS.template.md
     ├── LOG.template.md
-    └── REPORT.template.md
+    ├── REPORT.template.md
+    └── ADR.template.md      — шаблон Architecture Decision Record, копируется в docs/adr/NNNN-*.md
+                                проекта для нетривиальных технических решений (см. PLAN.template.md)
 ```
 
 ## Как это использовать
