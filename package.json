@@ -1,0 +1,44 @@
+{
+  "name": "aiac",
+  "version": "1.6.0",
+  "description": "AI Agents Core — переносимый протокол разработки: умный оркестратор (Claude) + дешёвый объёмный исполнитель (opencode)",
+  "keywords": [
+    "ai",
+    "ai-agents",
+    "agents",
+    "orchestration",
+    "workflow",
+    "protocol",
+    "claude",
+    "claude-code",
+    "opencode",
+    "llm",
+    "sdlc",
+    "developer-tools"
+  ],
+  "homepage": "https://github.com/zeroscrypt/aiac#readme",
+  "bugs": {
+    "url": "https://github.com/zeroscrypt/aiac/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zeroscrypt/aiac.git"
+  },
+  "license": "Apache-2.0",
+  "author": {
+    "name": "zeroscrypt",
+    "url": "https://github.com/zeroscrypt"
+  },
+  "files": [
+    "src",
+    "install.sh"
+  ],
+  "scripts": {
+    "check": "./scripts/check-package.sh",
+    "test": "./scripts/install-test.sh",
+    "prepublishOnly": "npm run check && npm run test"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

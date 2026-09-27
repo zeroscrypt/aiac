@@ -2,3 +2,7 @@
 *.swp
 .vscode/
 .idea/
+
+# npm pack кладёт tarball прямо в корень — он не должен попасть в коммит
+*.tgz
+node_modules/

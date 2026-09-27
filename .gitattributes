@@ -1,2 +1,6 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Shell-скрипты должны приезжать с LF в любом случае: `text=auto` на Windows
+# отдал бы их с CRLF, и `curl … | bash` упал бы на первой строке.
+*.sh text eol=lf

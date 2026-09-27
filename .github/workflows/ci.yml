@@ -1,0 +1,39 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  check:
+    name: Проверка пакета и установщика
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Проверить целостность пакета
+        # Версии src/VERSION и package.json должны совпадать, все файлы протокола обязаны
+        # попасть в tarball, мусор — не попасть. Без этой проверки опечатка в `files`
+        # обнаруживается только пользователем, уже после установки.
+        run: ./scripts/check-package.sh
+
+      - name: Сквозной тест установщика
+        # Ставит протокол в свежие проекты и проверяет, что существующие файлы не
+        # перезаписываются. Сеть не используется — источник берётся из текущего коммита.
+        run: ./scripts/install-test.sh
+
+  shellcheck:
+    name: shellcheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Установить shellcheck
+        run: sudo apt-get update && sudo apt-get install -y shellcheck
+      - name: Проверить скрипты
+        run: shellcheck install.sh scripts/*.sh

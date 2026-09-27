@@ -1,0 +1,61 @@
+name: release
+
+# Публикация по тегу: тег обязан совпадать с version в package.json (номер тега
+# используется в инструкции `curl … | bash -s -- --ref v<версия>`, а расхождение
+# означало бы, что установщик раздаёт один набор файлов под именем другой версии).
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: write   # создать GitHub Release
+  id-token: write   # npm provenance — подтверждает, что пакет опубликован именно из этого репозитория
+
+jobs:
+  verify:
+    name: Проверить релиз
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: ./scripts/check-package.sh
+      - run: ./scripts/install-test.sh
+
+  publish:
+    name: Опубликовать в npm
+    needs: verify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+
+      # npm из комплекта Node 24 может оказаться старее 11.5.1, где появился provenance.
+      # Обновляем, чтобы публикация не пала из-за флага, который сами же и передаём.
+      - name: Обновить npm
+        run: npm install -g npm@latest
+
+      - run: ./scripts/check-package.sh
+
+      - name: Опубликовать
+        run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  github-release:
+    name: GitHub Release
+    needs: publish
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm pack
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: aiac-*.tgz
+          generate_release_notes: true
